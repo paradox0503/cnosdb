@@ -4,6 +4,8 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
+
+
 config = { path = "../../config" }
 coordinator = { path = "../../coordinator" }
 memory_pool = { path = "../../common/memory_pool" }

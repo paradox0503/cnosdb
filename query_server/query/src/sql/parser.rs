@@ -6,7 +6,7 @@ use std::str::FromStr;
 use datafusion::common::parsers::CompressionTypeVariant;
 use datafusion::sql::parser::CreateExternalTable;
 use datafusion::sql::sqlparser::ast::{
-    DataType, Expr, Ident, ObjectName, Offset, OrderByExpr, SqlOption, TableFactor,
+    DataType, Expr, Ident, ObjectName, Offset, OrderByExpr, SqlOption, TableFactor,Value
 };
 use datafusion::sql::sqlparser::dialect::keywords::Keyword;
 use datafusion::sql::sqlparser::dialect::Dialect;
@@ -31,6 +31,7 @@ use spi::ParserSnafu;
 use trace::debug;
 
 use super::dialect::CnosDBDialect;
+use serde_json::Value as JsonValue;
 
 // support tag token
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1183,7 +1184,7 @@ impl<'a> ExtParser<'a> {
             inherit,
         }))
     }
-
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fn parse_create_tenant(&mut self) -> Result<ExtStatement> {
         let if_not_exists =
             self.parser
@@ -1194,19 +1195,163 @@ impl<'a> ExtParser<'a> {
         check_name_not_contain_illegal_character(&name_vec)?;
 
         let with_options = if self.parser.parse_keyword(Keyword::WITH) {
-            self.parser
-                .parse_comma_separated(ExtParser::parse_sql_option)?
+            self.parse_tenant_with_options()?
         } else {
             vec![]
         };
-
+        
         Ok(ExtStatement::CreateTenant(CreateTenant {
             if_not_exists,
             name,
             with_options,
         }))
     }
+    
 
+    fn parse_tenant_with_options(&mut self) -> Result<Vec<SqlOption>, ParserError> {
+        let mut with_options = vec![];
+        let mut limiter_options = serde_json::Map::new(); // 用于存储 _limiter 内部配置
+        let mut comment = None;
+        let mut drop_after = None;
+    
+        while self.parser.peek_token().token != Token::EOF {
+            let name = self.parser.parse_identifier()?;
+            self.parser.expect_token(&Token::Eq)?;
+    
+            match name.value.to_lowercase().as_str() {
+                "comment" => {
+                    comment = Some(self.parser.parse_literal_string()?);
+                }
+                "drop_after" => {
+                    drop_after = Some(self.parser.parse_literal_string()?);
+                }
+                "object_config" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_object_config()?);
+                }
+                "data_in" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                }
+                "data_out" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                }
+                "max_queries" | "max_writes" => {
+                    limiter_options.insert(name.value.to_lowercase(), ExtParser::sql_value_to_json_value(self.parser.parse_value()?)?);
+                }
+                _ => {
+                    with_options.push(SqlOption {
+                        name,
+                        value: self.parser.parse_value()?,
+                    });
+                }
+            }
+            // 处理逗号
+            if !self.parser.consume_token(&Token::Comma) {
+                break;
+            }
+        }
+    
+        // 构建 _limiter 的 JSON 字符串
+        let limiter_json = serde_json::json!({
+            "object_config": limiter_options.remove("object_config").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+            "request_config": {
+                "data_in": limiter_options.remove("data_in").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+                "data_out": limiter_options.remove("data_out").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+                "queries": limiter_options.remove("max_queries").unwrap_or(JsonValue::Null),
+                "writes": limiter_options.remove("max_writes").unwrap_or(JsonValue::Null),
+            }
+        });
+    
+        // 将构建好的 _limiter JSON 字符串作为一个选项添加到 with_options
+        with_options.push(SqlOption {
+            name: Ident::new("_limiter"),
+            value: Value::SingleQuotedString(limiter_json.to_string()),
+        });
+    
+        // 将 comment 和 drop_after 添加到 with_options 中
+        if let Some(comment) = comment {
+            with_options.push(SqlOption {
+                name: Ident::new("comment"),
+                value: Value::SingleQuotedString(comment),
+            });
+        }
+    
+        if let Some(drop_after) = drop_after {
+            with_options.push(SqlOption {
+                name: Ident::new("drop_after"),
+                value: Value::SingleQuotedString(drop_after),
+            });
+        }
+    
+        Ok(with_options)
+    }
+    
+    fn parse_object_config(&mut self) -> Result<JsonValue, ParserError> {
+        let mut map = serde_json::Map::new();
+        let valid_keys = [
+            "max_users_number",
+            "max_databases",
+            "max_shard_number",
+            "max_replicate_number",
+            "max_retention_time",
+        ];
+
+        // 假设只有一组键值对，没有逗号分隔
+        while let Token::Word(_) = self.parser.peek_token().token {
+            let key = self.parser.parse_identifier()?;
+
+            // 检查键是否在有效键列表中
+            if !valid_keys.contains(&key.value.to_lowercase().as_str()) {
+                return Err(ParserError::ParserError(key.value)); // 返回解析错误
+            }
+
+            self.parser.expect_token(&Token::Eq)?;
+            let val = self.parser.parse_value()?;
+            map.insert(key.value.to_lowercase(), ExtParser::sql_value_to_json_value(val)?);
+
+            // 这里不再检查逗号，直接继续下一个键值对，直到没有更多键值对
+        }
+
+        Ok(JsonValue::Object(map))
+    }
+    
+    fn parse_data_in_out(&mut self) -> Result<JsonValue, ParserError> {
+        let mut map = serde_json::Map::new();
+        // 定义允许的键列表
+        let valid_keys = [
+            "remote_max", "remote_initial", "remote_refill", "remote_interval",
+            "local_max", "local_initial",
+        ];
+
+        while let Token::Word(_) = self.parser.peek_token().token {
+            let key = self.parser.parse_identifier()?;
+
+            // 检查键是否在有效键列表中
+            if !valid_keys.contains(&key.value.to_lowercase().as_str()) {
+                return Err(ParserError::ParserError(key.value)); // 返回解析错误
+            }
+
+            self.parser.expect_token(&Token::Eq)?;
+            let val = self.parser.parse_value()?;
+            map.insert(key.value.to_lowercase(), ExtParser::sql_value_to_json_value(val)?);
+
+            // 这里不再检查逗号，直接继续下一个键值对，直到没有更多键值对
+        }
+        Ok(JsonValue::Object(map))
+    }
+    
+    fn sql_value_to_json_value(value: Value) -> Result<JsonValue, ParserError> {
+        match value {
+            Value::Number(n, _) => Ok(JsonValue::Number(n.parse::<serde_json::Number>().map_err(|e| ParserError::TokenizerError(e.to_string()))?)),
+            Value::SingleQuotedString(s) => Ok(JsonValue::String(s)),
+            Value::Boolean(b) => Ok(JsonValue::Bool(b)),
+            Value::Null => Ok(JsonValue::Null),
+            _ => Err(ParserError::TokenizerError("Unsupported value type".to_string())),
+        }
+    }
+
+
+
+    // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     fn parse_create_stream(&mut self) -> Result<ExtStatement> {
         if self.parser.parse_keyword(Keyword::TABLE) {
             self.parse_create_stream_table()
@@ -2796,4 +2941,213 @@ mod tests {
             _ => panic!("expect RenameColumn"),
         }
     }
+
+    // #[test]
+    // fn test_create_tenant() {
+    //     let statement = parse_sql(
+    //         r#"create tenant test_tenant with drop_after='10d', comment='test tenant',
+    //     object_config=(max_users_number = 1
+    //                         max_databases = 3
+    //                         max_shard_number = 2
+    //                         max_replicate_number = 2 
+    //                         max_retention_time = 30),
+    //     data_in=(remote_max = 10000
+    //                         remote_initial = 0
+    //                         remote_refill = 10000
+    //                         remote_interval = 100
+    //                         local_max = 10000
+    //                         local_initial = 0),
+    //     data_out=(remote_max = 100
+    //                         remote_initial = 0
+    //                         remote_refill = 100
+    //                         remote_interval = 100
+    //                         local_max = 100
+    //                         local_initial = 0),
+    //     MAX_queries = 1, MAX_writes = 1;"#,
+    //     );
+    //     println!("{:?}", statement);
+    // }
+
+    #[test]
+    fn test_create_tenant2() {
+        let statement = parse_sql(
+            r#"create tenant test_tenant with DROP_after='10d', comment='test tenant',
+        object_config=      MAX_users_number = 1
+                            max_databases = 3
+                            max_shard_number = 2
+                            max_replicate_number = 2 
+                            max_retention_time = 30,
+        data_in=            remote_max = 10000
+                            remote_refill = 10000
+                            remote_initial = 0
+                            remote_interval = 100
+                            LOCAL_max = 10000
+                            local_initial = 0,
+        data_out=           remote_max = 100
+                            remote_initial = 0
+                            remote_refill = 100
+                            remote_interval = 100
+                            local_max = 100
+                            local_initial = 0,
+        MAX_queries = 1, max_writes = 1;"#,
+        );
+        println!("{:?}", statement);
+    }
+    #[test]
+    fn test_create_tenant3() {
+        let statement = parse_sql(
+            r#"create tenant test_tenant with DROP_after='10d', comment='test tenant',
+        object_config      MAX_users_number = 1
+                            max_databases = 3
+                            max_shard_number = 2
+                            max_replicate_number = 2 
+                            max_retention_time = 30,
+        data_in            remote_max = 10000
+                            remote_refill = 10000
+                            remote_initial = 0
+                            remote_interval = 100
+                            LOCAL_max = 10000
+                            local_initial = 0,
+        data_out           remote_max = 100
+                            remote_initial = 0
+                            remote_refill = 100
+                            remote_interval = 100
+                            local_max = 100
+                            local_initial = 0,
+        MAX_queries = 1, max_writes = 1;"#,
+        );
+        println!("{:?}", statement);
+    }
+
+    #[test]
+    fn test_create_tenant_origin() {
+        let statement = parse_sql(
+            r#"create tenant test_tenant5 with drop_after='10d', comment='test tenant', _limiter = '{
+                "object_config": {
+                  "max_users_number": 1,
+                  "max_databases": 3,
+                  "max_shard_number": 2,
+                  "max_replicate_number": 2,
+                  "max_retention_time": 30
+                },
+                "request_config": {
+                  "data_in": {
+                    "remote_bucket": {
+                      "max": 10000,
+                      "initial": 0,
+                      "refill": 10000,
+                      "interval": 100
+                    },
+                    "local_bucket": {
+                      "max": 10000,
+                      "initial": 0
+                   }
+                  },
+                   "data_out": {
+                     "remote_bucket": {
+                     "max": 100,
+                     "initial": 0,
+                      "refill": 100,
+                      "interval": 100
+                },
+                "local_bucket": {
+                  "max": 100,
+                  "initial": 0
+                }
+                },
+                "queries": null,
+                "writes": null
+                }
+              }'"#,
+        );
+        println!("{:?}", statement);
+    }
+
+
+    // fn test_create_tenant() {
+    //     let sql = "create tenant test_tenant with drop_after='10d', comment='test tenant',
+    //     object_config        max_users_number = 1
+    //                         max_databases = 3
+    //                         max_shard_number = 2
+    //                         max_replicate_number = 2 
+    //                         max_retention_time = 30,
+    //     data_in              remote_max = 10000
+    //                         remote_initial = 0
+    //                         remote_refill = 10000
+    //                         remote_interval = 100
+    //                         local_max = 10000
+    //                         local_initial = 0,
+    //     data_out             remote_max = 100
+    //                         remote_initial = 0
+    //                         remote_refill = 100
+    //                         remote_interval = 100
+    //                         local_max = 100
+    //                         local_initial = 0,
+    //     MAX_queries = 1, MAX_writes = 1;";
+    //     let statements = ExtParser::parse_sql(sql).unwrap();
+    //     println!("{:?}", statements);
+    //     assert_eq!(statements.len(), 1);
+    //     match statements[0] {
+    //         ExtStatement::CreateTenant(ref stmt) => {
+    //             let expected = CreateTenant {
+    //                 name: Ident {
+    //                     value: "test_tenant".to_string(),
+    //                     quote_style: None,
+    //                 },
+    //                 if_not_exists: false,
+    //                 with_options: vec![
+    //                     SqlOption {
+    //                         name: "drop_after".into(),
+    //                         value: Value::SingleQuotedString("10d".to_string()),
+    //                     },
+    //                     SqlOption {
+    //                         name: "comment".into(),
+    //                         value: Value::SingleQuotedString("test tenant".to_string()),
+    //                     },
+    //                     SqlOption {
+    //                         name: "_limiter".into(),
+    //                         value: Value::SingleQuotedString(
+    //                             serde_json::json!({
+    //                                 "object_config": {
+    //                                     "max_users_number": 1,
+    //                                     "max_databases": 3,
+    //                                     "max_shard_number": 2,
+    //                                     "max_replicate_number": 2,
+    //                                     "max_retention_time": 30
+    //                                 },
+    //                                 "request_config": {
+    //                                     "data_in": {
+    //                                         "remote_max": 10000,
+    //                                         "remote_initial": 0,
+    //                                         "remote_refill": 10000,
+    //                                         "remote_interval": 100,
+    //                                         "local_max": 10000,
+    //                                         "local_initial": 0
+    //                                     },
+    //                                     "data_out": {
+    //                                         "remote_max": 100,
+    //                                         "remote_initial": 0,
+    //                                         "remote_refill": 100,
+    //                                         "remote_interval": 100,
+    //                                         "local_max": 100,
+    //                                         "local_initial": 0
+    //                                     },
+    //                                     "queries": null,
+    //                                     "writes": null
+    //                                 }
+    //                             }).to_string()
+    //                         ),
+    //                     },
+    //                 ],
+    //             };
+    //             if stmt != &expected {
+    //                 println!("Actual: {:?}", stmt);
+    //             }
+    //             assert_eq!(stmt, &expected);
+    //         }
+    //         _ => panic!("impossible"),
+    //     }
+    // }
+
+
 }
