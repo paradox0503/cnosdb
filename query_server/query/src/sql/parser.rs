@@ -32,6 +32,7 @@ use trace::debug;
 
 use super::dialect::CnosDBDialect;
 use serde_json::Value as JsonValue;
+// use serde_json::Map;
 
 // support tag token
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1216,7 +1217,11 @@ impl<'a> ExtParser<'a> {
     
         while self.parser.peek_token().token != Token::EOF {
             let name = self.parser.parse_identifier()?;
-            self.parser.expect_token(&Token::Eq)?;
+            // self.parser.expect_token(&Token::Eq)?;
+            // 跳过所有空白字符，包括空格、制表符和换行符
+            while matches!(self.parser.peek_token().token, Token::Whitespace(_)|Token::Eq) {
+                self.parser.next_token(); // 跳过空白字符
+            }
     
             match name.value.to_lowercase().as_str() {
                 "comment" => {
@@ -1260,13 +1265,12 @@ impl<'a> ExtParser<'a> {
                 "writes": limiter_options.remove("max_writes").unwrap_or(JsonValue::Null),
             }
         });
-    
-        // 将构建好的 _limiter JSON 字符串作为一个选项添加到 with_options
-        with_options.push(SqlOption {
-            name: Ident::new("_limiter"),
-            value: Value::SingleQuotedString(limiter_json.to_string()),
-        });
-    
+        if let Some(drop_after) = drop_after {
+            with_options.push(SqlOption {
+                name: Ident::new("drop_after"),
+                value: Value::SingleQuotedString(drop_after),
+            });
+        }
         // 将 comment 和 drop_after 添加到 with_options 中
         if let Some(comment) = comment {
             with_options.push(SqlOption {
@@ -1275,12 +1279,15 @@ impl<'a> ExtParser<'a> {
             });
         }
     
-        if let Some(drop_after) = drop_after {
-            with_options.push(SqlOption {
-                name: Ident::new("drop_after"),
-                value: Value::SingleQuotedString(drop_after),
-            });
-        }
+        // 将构建好的 _limiter JSON 字符串作为一个选项添加到 with_options
+        with_options.push(SqlOption {
+            name: Ident::new("_limiter"),
+            value: Value::SingleQuotedString(limiter_json.to_string()),
+        });
+    
+        
+    
+        
     
         Ok(with_options)
     }
@@ -1315,8 +1322,31 @@ impl<'a> ExtParser<'a> {
     }
     
     fn parse_data_in_out(&mut self) -> Result<JsonValue, ParserError> {
-        let mut map = serde_json::Map::new();
-        // 定义允许的键列表
+        // let mut map = serde_json::Map::new();
+        // // 定义允许的键列表
+        // let valid_keys = [
+        //     "remote_max", "remote_initial", "remote_refill", "remote_interval",
+        //     "local_max", "local_initial",
+        // ];
+
+        // while let Token::Word(_) = self.parser.peek_token().token {
+        //     let key = self.parser.parse_identifier()?;
+
+        //     // 检查键是否在有效键列表中
+        //     if !valid_keys.contains(&key.value.to_lowercase().as_str()) {
+        //         return Err(ParserError::ParserError(key.value)); // 返回解析错误
+        //     }
+
+        //     self.parser.expect_token(&Token::Eq)?;
+        //     let val = self.parser.parse_value()?;
+        //     map.insert(key.value.to_lowercase(), ExtParser::sql_value_to_json_value(val)?);
+
+        //     // 这里不再检查逗号，直接继续下一个键值对，直到没有更多键值对
+        // }
+        // Ok(JsonValue::Object(map))
+        let mut remote_map = serde_json::Map::new();
+        let mut local_map = serde_json::Map::new();
+
         let valid_keys = [
             "remote_max", "remote_initial", "remote_refill", "remote_interval",
             "local_max", "local_initial",
@@ -1324,19 +1354,38 @@ impl<'a> ExtParser<'a> {
 
         while let Token::Word(_) = self.parser.peek_token().token {
             let key = self.parser.parse_identifier()?;
+            let key_str = key.value.to_lowercase();
 
-            // 检查键是否在有效键列表中
-            if !valid_keys.contains(&key.value.to_lowercase().as_str()) {
-                return Err(ParserError::ParserError(key.value)); // 返回解析错误
+            if !valid_keys.contains(&key_str.as_str()) {
+                return Err(ParserError::ParserError(key.value));
             }
 
             self.parser.expect_token(&Token::Eq)?;
             let val = self.parser.parse_value()?;
-            map.insert(key.value.to_lowercase(), ExtParser::sql_value_to_json_value(val)?);
+            let json_val = ExtParser::sql_value_to_json_value(val)?;
 
-            // 这里不再检查逗号，直接继续下一个键值对，直到没有更多键值对
+            // if key_str.starts_with("remote") {
+            //     remote_map.insert(key_str, json_val);
+            // } else if key_str.starts_with("local") {
+            //     local_map.insert(key_str, json_val);
+            // }
+            // 将键值对添加到相应的桶中
+            if key_str.starts_with("remote") {
+                let field_key = key_str.strip_prefix("remote_").unwrap();
+                remote_map.insert(field_key.to_string(), json_val);
+            } else if key_str.starts_with("local") {
+                let field_key = key_str.strip_prefix("local_").unwrap();
+                local_map.insert(field_key.to_string(), json_val);
+            }
         }
-        Ok(JsonValue::Object(map))
+
+        // 使用 collect() 将数组转换为 serde_json::Map
+        let result_map: serde_json::Map<String, serde_json::Value> = [
+            ("remote_bucket".to_string(), JsonValue::Object(remote_map).into()),
+            ("local_bucket".to_string(), JsonValue::Object(local_map).into()),
+        ].iter().cloned().collect();
+
+        Ok(JsonValue::Object(result_map))
     }
     
     fn sql_value_to_json_value(value: Value) -> Result<JsonValue, ParserError> {
@@ -3055,37 +3104,134 @@ mod tests {
                   "initial": 0
                 }
                 },
-                "queries": null,
-                "writes": null
+                "queries": 1,
+                "writes": 1
                 }
               }'"#,
         );
         println!("{:?}", statement);
     }
 
+    #[test]
+    fn test_create_tenant4() {
+        let sql = "create tenant test_tenant4 with drop_after='10d', comment='test tenant',
+        object_config        max_users_number = 1
+                            max_databases = 3
+                            max_shard_number = 2
+                            max_replicate_number = 2 
+                            max_retention_time = 30,
+        data_in              remote_max = 10000
+                            remote_initial = 0
+                            remote_refill = 10000
+                            remote_interval = 100
+                            local_max = 10000
+                            local_initial = 0,
+        data_out             remote_max = 100
+                            remote_initial = 0
+                            remote_refill = 100
+                            remote_interval = 100
+                            local_max = 100
+                            local_initial = 0,
+        MAX_queries = 1, MAX_writes = 1;";
+        let statements = ExtParser::parse_sql(sql).unwrap();
+        println!("{:?}", statements);
+        assert_eq!(statements.len(), 1);
+        match statements[0] {
+            ExtStatement::CreateTenant(ref stmt) => {
+                let expected = CreateTenant {
+                    name: Ident {
+                        value: "test_tenant".to_string(),
+                        quote_style: None,
+                    },
+                    if_not_exists: false,
+                    with_options: vec![
+                        SqlOption {
+                            name: "drop_after".into(),
+                            value: Value::SingleQuotedString("10d".to_string()),
+                        },
+                        SqlOption {
+                            name: "comment".into(),
+                            value: Value::SingleQuotedString("test tenant".to_string()),
+                        },
+                        SqlOption {
+                            name: "_limiter".into(),
+                            value: Value::SingleQuotedString(
+                                serde_json::json!({
+                                    "object_config": {
+                                        "max_users_number": 1,
+                                        "max_databases": 3,
+                                        "max_shard_number": 2,
+                                        "max_replicate_number": 2,
+                                        "max_retention_time": 30
+                                    },
+                                    "request_config": {
+                                        "data_in": {
+                                "remote_bucket": {
+                                    "max": 10000,
+                                    "initial": 0,
+                                    "refill": 10000,
+                                    "interval": 100
+                                },
+                                "local_bucket": {
+                                    "max": 10000,
+                                    "initial": 0
+                                }
+                            },
+                            "data_out": {
+                                "remote_bucket": {
+                                    "max": 100,
+                                    "initial": 0,
+                                    "refill": 100,
+                                    "interval": 100
+                                },
+                                "local_bucket": {
+                                    "max": 100,
+                                    "initial": 0
+                                }
+                            },
+                                        "queries": 1,
+                                        "writes": 1
+                                    }
+                                }).to_string()
+                            ),
+                        },
+                    ],
+                };
+                if stmt != &expected {
+                    println!("Actual: {:?}", stmt);
+                }
+                assert_eq!(stmt, &expected);
+            }
+            _ => panic!("impossible"),
+        }
+    }
 
-    // fn test_create_tenant() {
-    //     let sql = "create tenant test_tenant with drop_after='10d', comment='test tenant',
-    //     object_config        max_users_number = 1
+
+
+
+    // #[test]
+    // fn test_create_tenant5() {
+    //     let sql = r#"create tenant test_tenant with DROP_after='10d', comment='test tenant',
+    //     object_config=      MAX_users_number = 1
     //                         max_databases = 3
     //                         max_shard_number = 2
-    //                         max_replicate_number = 2 
+    //                         max_replicate_number = 2
     //                         max_retention_time = 30,
-    //     data_in              remote_max = 10000
-    //                         remote_initial = 0
+    //     data_in=            remote_max = 10000
     //                         remote_refill = 10000
+    //                         remote_initial = 0
     //                         remote_interval = 100
-    //                         local_max = 10000
+    //                         LOCAL_max = 10000
     //                         local_initial = 0,
-    //     data_out             remote_max = 100
+    //     data_out=           remote_max = 100
     //                         remote_initial = 0
     //                         remote_refill = 100
     //                         remote_interval = 100
     //                         local_max = 100
     //                         local_initial = 0,
-    //     MAX_queries = 1, MAX_writes = 1;";
+    //     MAX_queries = 1, max_writes = 1;"#;
+
     //     let statements = ExtParser::parse_sql(sql).unwrap();
-    //     println!("{:?}", statements);
     //     assert_eq!(statements.len(), 1);
     //     match statements[0] {
     //         ExtStatement::CreateTenant(ref stmt) => {
@@ -3097,53 +3243,29 @@ mod tests {
     //                 if_not_exists: false,
     //                 with_options: vec![
     //                     SqlOption {
-    //                         name: "drop_after".into(),
-    //                         value: Value::SingleQuotedString("10d".to_string()),
+    //                         name: Ident {
+    //                             value: "drop_after".to_string(),
+    //                             quote_style: None,
+    //                         },
+    //                         value: SingleQuotedString("10d".to_string()),
     //                     },
     //                     SqlOption {
-    //                         name: "comment".into(),
-    //                         value: Value::SingleQuotedString("test tenant".to_string()),
+    //                         name: Ident {
+    //                             value: "comment".to_string(),
+    //                             quote_style: None,
+    //                         },
+    //                         value: SingleQuotedString("test tenant".to_string()),
     //                     },
     //                     SqlOption {
-    //                         name: "_limiter".into(),
-    //                         value: Value::SingleQuotedString(
-    //                             serde_json::json!({
-    //                                 "object_config": {
-    //                                     "max_users_number": 1,
-    //                                     "max_databases": 3,
-    //                                     "max_shard_number": 2,
-    //                                     "max_replicate_number": 2,
-    //                                     "max_retention_time": 30
-    //                                 },
-    //                                 "request_config": {
-    //                                     "data_in": {
-    //                                         "remote_max": 10000,
-    //                                         "remote_initial": 0,
-    //                                         "remote_refill": 10000,
-    //                                         "remote_interval": 100,
-    //                                         "local_max": 10000,
-    //                                         "local_initial": 0
-    //                                     },
-    //                                     "data_out": {
-    //                                         "remote_max": 100,
-    //                                         "remote_initial": 0,
-    //                                         "remote_refill": 100,
-    //                                         "remote_interval": 100,
-    //                                         "local_max": 100,
-    //                                         "local_initial": 0
-    //                                     },
-    //                                     "queries": null,
-    //                                     "writes": null
-    //                                 }
-    //                             }).to_string()
-    //                         ),
+    //                         name: Ident {
+    //                             value: "_limiter".to_string(),
+    //                             quote_style: None,
+    //                         },
+    //                         value: SingleQuotedString(r#"{"object_config":{"max_users_number":1,"max_databases":3,"max_shard_number":2,"max_replicate_number":2,"max_retention_time":30},"request_config":{"data_in":{"local_initial":0,"local_max":10000,"remote_initial":0,"remote_interval":100,"remote_max":10000,"remote_refill":10000},"data_out":{"local_initial":0,"local_max":100,"remote_initial":0,"remote_interval":100,"remote_max":100,"remote_refill":100},"queries":1,"writes":1}}"#.to_string()),
     //                     },
     //                 ],
     //             };
-    //             if stmt != &expected {
-    //                 println!("Actual: {:?}", stmt);
-    //             }
-    //             assert_eq!(stmt, &expected);
+    //             assert_eq!(stmt.as_ref(), &expected);
     //         }
     //         _ => panic!("impossible"),
     //     }
