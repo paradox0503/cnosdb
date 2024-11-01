@@ -417,6 +417,7 @@ pub fn sql_option_to_alter_tenant_action(
     option: SqlOption,
 ) -> std::result::Result<(AlterTenantAction, Privilege<Oid>), QueryError> {
     let SqlOption { name, value } = option;
+    println!("sql_option_to_alter_tenant_action: SqlOption: name: {}, value: {:?}", name, value);
     let tenant_id = *tenant.id();
     let mut tenant_options_builder = TenantOptionsBuilder::from(tenant.to_own_options());
 
@@ -430,6 +431,7 @@ pub fn sql_option_to_alter_tenant_action(
             let config =
                 serde_json::from_str::<TenantLimiterConfig>(parse_string_value(value).context(ParserSnafu)?.as_str())
                     .map_err(|_| ParserError::ParserError("limiter format error".to_string())).context(ParserSnafu)?;
+            println!("limiter config: {:?}", config.clone());
             tenant_options_builder.limiter_config(config);
             Privilege::Global(GlobalPrivilege::System)
         }

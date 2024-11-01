@@ -697,12 +697,16 @@ impl AdminMeta {
 
     pub async fn alter_tenant(&self, name: &str, options: TenantOptions) -> MetaResult<()> {
         let req = command::WriteCommand::AlterTenant(self.cluster(), name.to_string(), options);
+        println!("alter_tenant req: {:?}", req);
 
         let tenant = self.client.write::<Tenant>(&req).await?;
+        println!("alter_tenant tenant: {:?}", tenant);
 
         let tenant_meta = self.create_tenant_meta(tenant).await?;
+        println!("alter_tenant tenant_meta: {:?}", tenant_meta.clone());
 
         self.tenants.write().insert(name.to_string(), tenant_meta);
+
 
         Ok(())
     }

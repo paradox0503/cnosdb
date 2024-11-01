@@ -92,15 +92,20 @@ impl DDLDefinitionTask for AlterTenantTask {
                 debug!("Remove user {} from tenant {}", user_id, tenant_name);
                 meta.remove_member(*user_id).await.context(MetaSnafu)?;
             }
+
             AlterTenantAction::SetOption(tenant_option) => {
+                println!("Set tenant option {:?}", tenant_option.clone());
                 query_state_machine
                     .meta
                     .alter_tenant(tenant_name, *tenant_option.clone())
                     .await
                     .context(MetaSnafu)?;
+                println!("Set tenant option {:?}", tenant_option);
+
             }
         }
 
         return Ok(Output::Nil(()));
     }
 }
+

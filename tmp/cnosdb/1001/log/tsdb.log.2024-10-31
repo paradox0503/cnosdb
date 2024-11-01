@@ -1,0 +1,715 @@
+2024-10-31T11:50:18.914770000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T11:50:19.060034000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T11:50:19.060243000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T11:50:19.060301000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T11:50:19.060326000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T11:50:19.061754000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T11:50:19.072308000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T11:50:19.072512000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1726 })
+2024-10-31T11:50:19.072605000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 1613, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1726 })
+2024-10-31T11:50:20.062792000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:50:20.062833000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:50:20.062877000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:50:20.062891000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:50:21.261080000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-1726]
+2024-10-31T11:50:21.261585000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 1613, create time: 20241031_115021_261, active time: 0, ve: VersionEdit { seq_no: 1613, file_id: 15, max_level_ts: 1730286498128694000, add_files: [CompactMeta { file_id: 13, file_size: 247263, tsf_id: 3, level: 0, min_ts: 1730271385310214000, max_ts: 1730273327288866000, is_delta: true }, CompactMeta { file_id: 14, file_size: 245643, tsf_id: 3, level: 0, min_ts: 1730273337287240000, max_ts: 1730274757293538000, is_delta: true }, CompactMeta { file_id: 15, file_size: 246320, tsf_id: 3, level: 0, min_ts: 1730274767292477000, max_ts: 1730286498128694000, is_delta: true }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T11:50:21.261839000+08:00  INFO replication::node_store: node-3 last applied:1-3-1726, create snapshot index: 1613, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1613 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-1613" }
+2024-10-31T11:50:23.035381000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 1613, create time: 20241031_115021_261, active time: 1730346623, ve: VersionEdit { seq_no: 1613, file_id: 15, max_level_ts: 1730286498128694000, add_files: [CompactMeta { file_id: 13, file_size: 247263, tsf_id: 3, level: 0, min_ts: 1730271385310214000, max_ts: 1730273327288866000, is_delta: true }, CompactMeta { file_id: 14, file_size: 245643, tsf_id: 3, level: 0, min_ts: 1730273337287240000, max_ts: 1730274757293538000, is_delta: true }, CompactMeta { file_id: 15, file_size: 246320, tsf_id: 3, level: 0, min_ts: 1730274767292477000, max_ts: 1730286498128694000, is_delta: true }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T11:50:23.035570000+08:00  INFO replication::node_store: node-3  get snapshot index: 1613, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1613 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-1613" }
+2024-10-31T11:50:23.035795000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T11:50:23.042144000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T11:50:23.042382000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T11:50:23.042802000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T11:50:23.053973000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T11:50:23.054010000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T11:51:19.061638000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:51:19.061717000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:51:19.061765000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:51:19.061803000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:52:19.061540000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:52:19.061646000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:52:19.061720000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:52:19.061774000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:53:19.061033000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:53:19.061076000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:53:19.061104000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:53:19.061119000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:54:19.060369000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:54:19.060455000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:54:19.060504000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:54:19.060542000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:55:19.059862000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:55:19.059960000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:55:19.060032000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:55:19.060083000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:56:19.042879000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:56:19.042940000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:56:19.042964000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:56:19.042980000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:57:19.016840000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:57:19.016887000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:57:19.016918000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:57:19.016937000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:58:19.016274000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:58:19.016385000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:58:19.016454000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:58:19.016507000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T11:59:19.014466000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T11:59:19.014554000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T11:59:19.014604000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T11:59:19.014643000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:00:20.014633000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T12:00:20.014699000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:00:20.014743000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T12:00:20.014776000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:00:22.990084000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 1785, flushed_apply_id: 1613, snapshot_apply_id: 1613 }
+2024-10-31T12:01:19.012908000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T12:01:19.013012000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:01:19.013061000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T12:01:19.013091000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:02:19.012315000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T12:02:19.012453000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:02:19.012551000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T12:02:19.012615000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:02:33.012426000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2100960
+2024-10-31T12:02:33.012694000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T12:02:33.013517000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [1613-1799]
+2024-10-31T12:02:33.071719000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 1799, file_id: 16, max_level_ts: 1730347352990268000, add_files: [CompactMeta { file_id: 16, file_size: 247036, tsf_id: 3, level: 0, min_ts: 1730286508127683000, max_ts: 1730347352990268000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:02:33.071784000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 1613
+2024-10-31T12:02:33.071861000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 1799, file_id: 16, max_level_ts: 1730347352990268000, add_files: [CompactMeta { file_id: 16, file_size: 247036, tsf_id: 3, level: 0, min_ts: 1730286508127683000, max_ts: 1730347352990268000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:02:33.071911000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T12:02:33.075341000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T12:02:33.075477000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T12:02:33.075510000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T12:02:33.086432000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T12:02:34.012951000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T12:02:34.013048000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:02:34.013484000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730347354013]: picked level_0 files([13, 14, 15, 16]) to level: 1
+2024-10-31T12:02:34.013559000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:02:34.013781000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Running compaction job on tenant_database: cnosdb.usage_schema, ts_family: 3, in_level: 0, out_level: 1, out_time_range: [1730271385310214000, 1730347352990268000], files: [{ Level-0, file_id: 13, time_range: 1730271385310214000-1730273327288866000 }, { Level-0, file_id: 14, time_range: 1730273337287240000-1730274757293538000 }, { Level-0, file_id: 15, time_range: 1730274767292477000-1730286498128694000 }, { Level-0, file_id: 16, time_range: 1730286508127683000-1730347352990268000 }]
+2024-10-31T12:02:34.039679000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000013.tombstone.compact.tmp', all_excluded_ranges: { (1730271385310214000, 1730347352990268000) }
+2024-10-31T12:02:34.060613000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000014.tombstone.compact.tmp', all_excluded_ranges: { (1730271385310214000, 1730347352990268000) }
+2024-10-31T12:02:34.081042000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000015.tombstone.compact.tmp', all_excluded_ranges: { (1730271385310214000, 1730347352990268000) }
+2024-10-31T12:02:34.095723000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000016.tombstone.compact.tmp', all_excluded_ranges: { (1730271385310214000, 1730347352990268000) }
+2024-10-31T12:02:34.102472000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 18 been created (level: 1).
+2024-10-31T12:02:34.244324000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 18 write finished (level: 1, 426524 B).
+2024-10-31T12:02:34.244612000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Compact finished, version edits: VersionEdit { seq_no: 0, file_id: 18, max_level_ts: 1730347352990268000, add_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }], del_files: [CompactMeta { file_id: 13, file_size: 247263, tsf_id: 0, level: 0, min_ts: 1730271385310214000, max_ts: 1730273327288866000, is_delta: true }, CompactMeta { file_id: 14, file_size: 245643, tsf_id: 0, level: 0, min_ts: 1730273337287240000, max_ts: 1730274757293538000, is_delta: true }, CompactMeta { file_id: 15, file_size: 246320, tsf_id: 0, level: 0, min_ts: 1730274767292477000, max_ts: 1730286498128694000, is_delta: true }, CompactMeta { file_id: 16, file_size: 247036, tsf_id: 0, level: 0, min_ts: 1730286508127683000, max_ts: 1730347352990268000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T12:02:34.244661000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 0, file_id: 18, max_level_ts: 1730347352990268000, add_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }], del_files: [CompactMeta { file_id: 13, file_size: 247263, tsf_id: 0, level: 0, min_ts: 1730271385310214000, max_ts: 1730273327288866000, is_delta: true }, CompactMeta { file_id: 14, file_size: 245643, tsf_id: 0, level: 0, min_ts: 1730273337287240000, max_ts: 1730274757293538000, is_delta: true }, CompactMeta { file_id: 15, file_size: 246320, tsf_id: 0, level: 0, min_ts: 1730274767292477000, max_ts: 1730286498128694000, is_delta: true }, CompactMeta { file_id: 16, file_size: 247036, tsf_id: 0, level: 0, min_ts: 1730286508127683000, max_ts: 1730347352990268000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T12:02:34.244693000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T12:02:34.248315000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T12:02:34.248495000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 16 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000016.delta
+2024-10-31T12:02:34.248527000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000016.tombstone.compact.tmp'
+2024-10-31T12:02:34.248693000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000016.tombstone.compact.tmp'
+2024-10-31T12:02:34.248713000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T12:02:34.248729000+08:00  INFO tskv::kvcore: Response apply version edit failed: Ok(())
+2024-10-31T12:10:22.982542000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 1845, flushed_apply_id: 1799, snapshot_apply_id: 1613 }
+2024-10-31T12:10:22.985431000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 1799, create time: 20241031_121022_984, active time: 0, ve: VersionEdit { seq_no: 1799, file_id: 18, max_level_ts: 1730347352990268000, add_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:10:22.985940000+08:00  INFO replication::node_store: node-3 last applied:1-3-1845, create snapshot index: 1799, data len 204, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1799 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-1799" }
+2024-10-31T12:20:22.969165000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 1905, flushed_apply_id: 1799, snapshot_apply_id: 1799 }
+2024-10-31T12:26:22.986212000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T12:26:22.986401000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T12:26:22.987513000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [1799-1942]
+2024-10-31T12:26:23.038714000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 1942, file_id: 17, max_level_ts: 1730348782964569000, add_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 3, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:26:23.038765000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 1799
+2024-10-31T12:26:23.038827000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 1942, file_id: 17, max_level_ts: 1730348782964569000, add_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 3, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:26:23.038848000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T12:26:23.041449000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T12:26:23.041537000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T12:26:23.041573000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T12:26:23.052857000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T12:26:23.987748000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T12:26:23.987878000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:26:23.988003000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730348783987]: picked nothing, level_0 files(1) < 4
+2024-10-31T12:26:23.988070000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T12:26:23.988141000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:30:22.981939000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 1965, flushed_apply_id: 1942, snapshot_apply_id: 1799 }
+2024-10-31T12:30:22.984541000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 1942, create time: 20241031_123022_983, active time: 0, ve: VersionEdit { seq_no: 1942, file_id: 18, max_level_ts: 1730348782964569000, add_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 3, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }, CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:30:22.985232000+08:00  INFO replication::node_store: node-3 last applied:1-3-1965, create snapshot index: 1942, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 1942 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-1942" }
+2024-10-31T12:40:22.975049000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2025, flushed_apply_id: 1942, snapshot_apply_id: 1942 }
+2024-10-31T12:50:13.005460000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T12:50:13.005653000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T12:50:13.006743000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [1942-2085]
+2024-10-31T12:50:13.057034000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2085, file_id: 19, max_level_ts: 1730350212984715000, add_files: [CompactMeta { file_id: 19, file_size: 245555, tsf_id: 3, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:50:13.057089000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 1942
+2024-10-31T12:50:13.057151000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2085, file_id: 19, max_level_ts: 1730350212984715000, add_files: [CompactMeta { file_id: 19, file_size: 245555, tsf_id: 3, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:50:13.057174000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T12:50:13.061621000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T12:50:13.061700000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T12:50:13.061730000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T12:50:13.073109000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T12:50:14.006612000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T12:50:14.006759000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T12:50:14.006855000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730350214006]: picked nothing, level_0 files(2) < 4
+2024-10-31T12:50:14.006926000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T12:50:14.007000000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T12:50:22.982798000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2085, flushed_apply_id: 2085, snapshot_apply_id: 1942 }
+2024-10-31T12:50:22.984932000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2085, create time: 20241031_125022_984, active time: 0, ve: VersionEdit { seq_no: 2085, file_id: 19, max_level_ts: 1730350212984715000, add_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 3, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }, CompactMeta { file_id: 19, file_size: 245555, tsf_id: 3, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }, CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T12:50:22.985448000+08:00  INFO replication::node_store: node-3 last applied:1-3-2085, create snapshot index: 2085, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2085 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2085" }
+2024-10-31T13:00:22.973497000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2145, flushed_apply_id: 2085, snapshot_apply_id: 2085 }
+2024-10-31T13:10:22.964113000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2205, flushed_apply_id: 2085, snapshot_apply_id: 2085 }
+2024-10-31T13:14:02.979886000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T13:14:02.980069000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T13:14:02.981142000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2085-2228]
+2024-10-31T13:14:03.034295000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2228, file_id: 20, max_level_ts: 1730351642963908000, add_files: [CompactMeta { file_id: 20, file_size: 245528, tsf_id: 3, level: 0, min_ts: 1730350222984126000, max_ts: 1730351642963908000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:14:03.034355000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2085
+2024-10-31T13:14:03.034418000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2228, file_id: 20, max_level_ts: 1730351642963908000, add_files: [CompactMeta { file_id: 20, file_size: 245528, tsf_id: 3, level: 0, min_ts: 1730350222984126000, max_ts: 1730351642963908000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:14:03.034437000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T13:14:03.037905000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T13:14:03.037985000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T13:14:03.038016000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T13:14:03.049453000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T13:14:03.987576000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T13:14:03.987682000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T13:14:03.987746000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730351643987]: picked nothing, level_0 files(3) < 4
+2024-10-31T13:14:03.987782000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T13:14:03.987824000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T13:20:22.958994000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2265, flushed_apply_id: 2228, snapshot_apply_id: 2085 }
+2024-10-31T13:20:22.961340000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2228, create time: 20241031_132022_960, active time: 0, ve: VersionEdit { seq_no: 2228, file_id: 20, max_level_ts: 1730351642963908000, add_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 3, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }, CompactMeta { file_id: 19, file_size: 245555, tsf_id: 3, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }, CompactMeta { file_id: 20, file_size: 245528, tsf_id: 3, level: 0, min_ts: 1730350222984126000, max_ts: 1730351642963908000, is_delta: true }, CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:20:22.962523000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 13 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000013.delta
+2024-10-31T13:20:22.962661000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000013.tombstone.compact.tmp'
+2024-10-31T13:20:22.963670000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000013.tombstone.compact.tmp'
+2024-10-31T13:20:22.965054000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 14 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000014.delta
+2024-10-31T13:20:22.965153000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000014.tombstone.compact.tmp'
+2024-10-31T13:20:22.965631000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000014.tombstone.compact.tmp'
+2024-10-31T13:20:22.966460000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 15 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000015.delta
+2024-10-31T13:20:22.966546000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000015.tombstone.compact.tmp'
+2024-10-31T13:20:22.966798000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000015.tombstone.compact.tmp'
+2024-10-31T13:20:22.967296000+08:00  INFO replication::node_store: node-3 last applied:1-3-2265, create snapshot index: 2228, data len 327, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2228 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2228" }
+2024-10-31T13:30:22.951826000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2325, flushed_apply_id: 2228, snapshot_apply_id: 2228 }
+2024-10-31T13:37:52.970893000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T13:37:52.971084000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T13:37:52.972188000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2228-2371]
+2024-10-31T13:37:53.027353000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2371, file_id: 21, max_level_ts: 1730353072949341000, add_files: [CompactMeta { file_id: 21, file_size: 245561, tsf_id: 3, level: 0, min_ts: 1730351652962455000, max_ts: 1730353072949341000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:37:53.027402000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2228
+2024-10-31T13:37:53.027460000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2371, file_id: 21, max_level_ts: 1730353072949341000, add_files: [CompactMeta { file_id: 21, file_size: 245561, tsf_id: 3, level: 0, min_ts: 1730351652962455000, max_ts: 1730353072949341000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:37:53.027485000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T13:37:53.031999000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T13:37:53.032087000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T13:37:53.032117000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T13:37:53.043414000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T13:37:53.970404000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T13:37:53.970505000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T13:37:53.970751000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730353073970]: picked level_0 files([17, 19, 20, 21]) to level: 1
+2024-10-31T13:37:53.970848000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T13:37:53.971118000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Running compaction job on tenant_database: cnosdb.usage_schema, ts_family: 3, in_level: 0, out_level: 1, out_time_range: [1730347362988473000, 1730353072949341000], files: [{ Level-0, file_id: 17, time_range: 1730347362988473000-1730348782964569000 }, { Level-0, file_id: 19, time_range: 1730348792962323000-1730350212984715000 }, { Level-0, file_id: 20, time_range: 1730350222984126000-1730351642963908000 }, { Level-0, file_id: 21, time_range: 1730351652962455000-1730353072949341000 }]
+2024-10-31T13:37:53.998397000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000017.tombstone.compact.tmp', all_excluded_ranges: { (1730347362988473000, 1730353072949341000) }
+2024-10-31T13:37:54.019472000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000019.tombstone.compact.tmp', all_excluded_ranges: { (1730347362988473000, 1730353072949341000) }
+2024-10-31T13:37:54.037820000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000020.tombstone.compact.tmp', all_excluded_ranges: { (1730347362988473000, 1730353072949341000) }
+2024-10-31T13:37:54.053335000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000021.tombstone.compact.tmp', all_excluded_ranges: { (1730347362988473000, 1730353072949341000) }
+2024-10-31T13:37:54.061040000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 23 been created (level: 1).
+2024-10-31T13:37:54.202839000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 23 write finished (level: 1, 422881 B).
+2024-10-31T13:37:54.203118000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Compact finished, version edits: VersionEdit { seq_no: 0, file_id: 23, max_level_ts: 1730353072949341000, add_files: [CompactMeta { file_id: 23, file_size: 422881, tsf_id: 3, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 0, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }, CompactMeta { file_id: 19, file_size: 245555, tsf_id: 0, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }, CompactMeta { file_id: 20, file_size: 245528, tsf_id: 0, level: 0, min_ts: 1730350222984126000, max_ts: 1730351642963908000, is_delta: true }, CompactMeta { file_id: 21, file_size: 245561, tsf_id: 0, level: 0, min_ts: 1730351652962455000, max_ts: 1730353072949341000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T13:37:54.203163000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 0, file_id: 23, max_level_ts: 1730353072949341000, add_files: [CompactMeta { file_id: 23, file_size: 422881, tsf_id: 3, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 17, file_size: 245584, tsf_id: 0, level: 0, min_ts: 1730347362988473000, max_ts: 1730348782964569000, is_delta: true }, CompactMeta { file_id: 19, file_size: 245555, tsf_id: 0, level: 0, min_ts: 1730348792962323000, max_ts: 1730350212984715000, is_delta: true }, CompactMeta { file_id: 20, file_size: 245528, tsf_id: 0, level: 0, min_ts: 1730350222984126000, max_ts: 1730351642963908000, is_delta: true }, CompactMeta { file_id: 21, file_size: 245561, tsf_id: 0, level: 0, min_ts: 1730351652962455000, max_ts: 1730353072949341000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T13:37:54.203179000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T13:37:54.206786000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T13:37:54.206995000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 21 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000021.delta
+2024-10-31T13:37:54.207022000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000021.tombstone.compact.tmp'
+2024-10-31T13:37:54.207102000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000021.tombstone.compact.tmp'
+2024-10-31T13:37:54.207120000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T13:37:54.207132000+08:00  INFO tskv::kvcore: Response apply version edit failed: Ok(())
+2024-10-31T13:40:22.945729000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2385, flushed_apply_id: 2371, snapshot_apply_id: 2228 }
+2024-10-31T13:40:22.946612000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2371, create time: 20241031_134022_946, active time: 0, ve: VersionEdit { seq_no: 2371, file_id: 23, max_level_ts: 1730353072949341000, add_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 23, file_size: 422881, tsf_id: 3, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T13:40:22.947072000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 17 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000017.delta
+2024-10-31T13:40:22.947162000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000017.tombstone.compact.tmp'
+2024-10-31T13:40:22.947487000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000017.tombstone.compact.tmp'
+2024-10-31T13:40:22.947721000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 19 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000019.delta
+2024-10-31T13:40:22.947787000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000019.tombstone.compact.tmp'
+2024-10-31T13:40:22.950739000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000019.tombstone.compact.tmp'
+2024-10-31T13:40:22.951262000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 20 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000020.delta
+2024-10-31T13:40:22.951349000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000020.tombstone.compact.tmp'
+2024-10-31T13:40:22.951657000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000020.tombstone.compact.tmp'
+2024-10-31T13:40:22.952230000+08:00  INFO replication::node_store: node-3 last applied:1-3-2385, create snapshot index: 2371, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2371 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2371" }
+2024-10-31T13:50:22.969350000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2445, flushed_apply_id: 2371, snapshot_apply_id: 2371 }
+2024-10-31T14:00:23.031921000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2505, flushed_apply_id: 2371, snapshot_apply_id: 2371 }
+2024-10-31T14:01:43.046943000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T14:01:43.047096000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T14:01:43.047467000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2371-2514]
+2024-10-31T14:01:43.092346000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2514, file_id: 22, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:01:43.092403000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2371
+2024-10-31T14:01:43.092484000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2514, file_id: 22, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:01:43.092511000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T14:01:43.102996000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T14:01:43.103099000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T14:01:43.103141000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T14:01:43.116720000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T14:01:44.056476000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T14:01:44.056570000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:01:44.056628000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730354504056]: picked nothing, level_0 files(1) < 4
+2024-10-31T14:01:44.056659000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:01:44.056696000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:10:23.035001000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2565, flushed_apply_id: 2514, snapshot_apply_id: 2371 }
+2024-10-31T14:10:23.037486000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2514, create time: 20241031_141023_036, active time: 0, ve: VersionEdit { seq_no: 2514, file_id: 23, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 18, file_size: 426524, tsf_id: 3, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 23, file_size: 422881, tsf_id: 3, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:10:23.038118000+08:00  INFO replication::node_store: node-3 last applied:1-3-2565, create snapshot index: 2514, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2514 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2514" }
+2024-10-31T14:14:46.058687000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T14:14:46.064296000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x11941e0a0, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T14:14:46.065225000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T14:18:32.421198000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T14:18:32.581496000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T14:18:32.581705000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T14:18:32.581762000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T14:18:32.581787000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T14:18:32.583260000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T14:18:32.593438000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T14:18:32.593606000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2592 })
+2024-10-31T14:18:32.593688000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 2514, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2592 })
+2024-10-31T14:18:33.584339000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:18:33.584391000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:18:33.584529000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:18:33.584725000+08:00  INFO tskv::compaction::compact: Compaction: Running compaction job on Normal(3)
+2024-10-31T14:18:33.607845000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Normal(3)): File: 25 been created (level: 2).
+2024-10-31T14:18:33.757353000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Normal(3)): File: 25 write finished (level: 2, 663583 B).
+2024-10-31T14:18:33.757680000+08:00  INFO tskv::compaction::compact: Compaction(Normal(3)): Compact finished, version edits: VersionEdit { seq_no: 0, file_id: 25, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 25, file_size: 663583, tsf_id: 3, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 0, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 23, file_size: 422881, tsf_id: 0, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T14:18:33.757736000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 0, file_id: 25, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 25, file_size: 663583, tsf_id: 3, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 18, file_size: 426524, tsf_id: 0, level: 1, min_ts: 1730271385310214000, max_ts: 1730347352990268000, is_delta: false }, CompactMeta { file_id: 23, file_size: 422881, tsf_id: 0, level: 1, min_ts: 1730347362988473000, max_ts: 1730353072949341000, is_delta: false }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T14:18:33.757756000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T14:18:33.761296000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T14:18:33.761576000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 18 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/tsm/_000018.tsm
+2024-10-31T14:18:33.761628000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/tsm/_000018.tombstone.compact.tmp'
+2024-10-31T14:18:33.761688000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 23 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/tsm/_000023.tsm
+2024-10-31T14:18:33.761705000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/tsm/_000023.tombstone.compact.tmp'
+2024-10-31T14:18:33.761721000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T14:18:33.761747000+08:00  INFO tskv::kvcore: Response apply version edit failed: Ok(())
+2024-10-31T14:18:35.874411000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-2592]
+2024-10-31T14:18:35.874862000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2514, create time: 20241031_141835_874, active time: 0, ve: VersionEdit { seq_no: 2514, file_id: 25, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }, CompactMeta { file_id: 25, file_size: 663583, tsf_id: 3, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:18:35.875063000+08:00  INFO replication::node_store: node-3 last applied:1-3-2592, create snapshot index: 2514, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2514 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2514" }
+2024-10-31T14:18:38.685619000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 2514, create time: 20241031_141835_874, active time: 1730355518, ve: VersionEdit { seq_no: 2514, file_id: 25, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 12, file_size: 659803, tsf_id: 3, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }, CompactMeta { file_id: 25, file_size: 663583, tsf_id: 3, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:18:38.685774000+08:00  INFO replication::node_store: node-3  get snapshot index: 2514, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2514 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2514" }
+2024-10-31T14:18:38.685961000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T14:18:38.691548000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T14:18:38.691757000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T14:18:38.692087000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T14:18:38.693257000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T14:18:38.693279000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T14:19:33.585118000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:19:33.585268000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:19:33.585485000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:19:33.585776000+08:00  INFO tskv::compaction::compact: Compaction: Running compaction job on Normal(3)
+2024-10-31T14:19:33.632296000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Normal(3)): File: 26 been created (level: 3).
+2024-10-31T14:19:33.899784000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Normal(3)): File: 26 write finished (level: 3, 1136522 B).
+2024-10-31T14:19:33.900071000+08:00  INFO tskv::compaction::compact: Compaction(Normal(3)): Compact finished, version edits: VersionEdit { seq_no: 0, file_id: 26, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 12, file_size: 659803, tsf_id: 0, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }, CompactMeta { file_id: 25, file_size: 663583, tsf_id: 0, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T14:19:33.900115000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 0, file_id: 26, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [CompactMeta { file_id: 12, file_size: 659803, tsf_id: 0, level: 2, min_ts: 1730259945553945000, max_ts: 1730271375312549000, is_delta: false }, CompactMeta { file_id: 25, file_size: 663583, tsf_id: 0, level: 2, min_ts: 1730271385310214000, max_ts: 1730353072949341000, is_delta: false }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T14:19:33.900131000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T14:19:33.906705000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T14:19:33.906788000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T14:19:33.906805000+08:00  INFO tskv::kvcore: Response apply version edit failed: Ok(())
+2024-10-31T14:20:33.585230000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:20:33.585406000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:20:33.585509000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:20:33.585564000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:21:33.585410000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:21:33.585547000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:21:33.585645000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:21:33.585797000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:22:33.585541000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:22:33.585728000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:22:33.585804000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:22:33.585859000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:23:33.586405000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:23:33.586538000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:23:33.586581000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:23:33.586612000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:24:33.587457000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:24:33.587603000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:24:33.587740000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:24:33.587791000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:25:33.587966000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:25:33.588104000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:25:33.588159000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:25:33.588211000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:26:05.323293000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T14:26:05.337687000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x117869f60, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T14:26:05.339172000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T14:27:08.737165000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T14:27:08.891982000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T14:27:08.892207000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T14:27:08.892270000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T14:27:08.892300000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T14:27:08.893698000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T14:27:08.903449000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T14:27:08.903695000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2636 })
+2024-10-31T14:27:08.903845000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 2514, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2636 })
+2024-10-31T14:27:09.894463000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:27:09.894497000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:27:09.894553000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:27:09.894571000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:27:12.456787000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-2636]
+2024-10-31T14:27:12.457319000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2514, create time: 20241031_142712_456, active time: 0, ve: VersionEdit { seq_no: 2514, file_id: 26, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:27:12.457541000+08:00  INFO replication::node_store: node-3 last applied:1-3-2636, create snapshot index: 2514, data len 204, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2514 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2514" }
+2024-10-31T14:27:15.334147000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 2514, create time: 20241031_142712_456, active time: 1730356035, ve: VersionEdit { seq_no: 2514, file_id: 26, max_level_ts: 1730354503033993000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:27:15.334315000+08:00  INFO replication::node_store: node-3  get snapshot index: 2514, data len 204, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2514 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2514" }
+2024-10-31T14:27:15.334510000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T14:27:15.340647000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T14:27:15.340895000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T14:27:15.341279000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T14:27:15.380347000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T14:27:15.380386000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T14:28:09.894839000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:28:09.895060000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:28:09.895157000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:28:09.895230000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:29:09.894847000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:29:09.894913000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:29:09.894980000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:29:09.895004000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:30:09.889852000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:30:09.890046000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:30:09.890153000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:30:09.890190000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:31:09.889324000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:31:09.889443000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:31:09.889523000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:31:09.889576000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:31:15.354824000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2099200
+2024-10-31T14:31:15.355071000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T14:31:15.356672000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2514-2660]
+2024-10-31T14:31:15.407576000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:31:15.407635000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2514
+2024-10-31T14:31:15.407693000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:31:15.407718000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T14:31:15.412325000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T14:31:15.412460000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T14:31:15.412548000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T14:31:15.422777000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T14:31:15.889311000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T14:31:15.889456000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:31:15.889701000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730356275889]: picked nothing, level_0 files(2) < 4
+2024-10-31T14:31:15.889878000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:31:15.889964000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:37:15.334126000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2695, flushed_apply_id: 2660, snapshot_apply_id: 2514 }
+2024-10-31T14:37:15.334694000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2660, create time: 20241031_143715_334, active time: 0, ve: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:37:15.334851000+08:00  INFO replication::node_store: node-3 last applied:1-3-2695, create snapshot index: 2660, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2660 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2660" }
+2024-10-31T14:41:22.177832000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T14:41:22.183203000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x117d06000, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T14:41:22.183930000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T14:44:09.515188000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T14:44:09.673650000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T14:44:09.673861000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T14:44:09.673950000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T14:44:09.673983000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T14:44:09.675443000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T14:44:09.686380000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T14:44:09.686508000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2720 })
+2024-10-31T14:44:09.686586000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 2660, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2720 })
+2024-10-31T14:44:10.675444000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:44:10.675488000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:44:10.675517000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:44:10.675531000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:44:13.132553000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-2720]
+2024-10-31T14:44:13.133072000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2660, create time: 20241031_144413_132, active time: 0, ve: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:44:13.133380000+08:00  INFO replication::node_store: node-3 last applied:1-3-2720, create snapshot index: 2660, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2660 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2660" }
+2024-10-31T14:44:16.146898000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 2660, create time: 20241031_144413_132, active time: 1730357056, ve: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:44:16.147078000+08:00  INFO replication::node_store: node-3  get snapshot index: 2660, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2660 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2660" }
+2024-10-31T14:44:16.147285000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T14:44:16.153294000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T14:44:16.153488000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T14:44:16.154048000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T14:44:16.158674000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T14:44:16.158696000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T14:45:10.664311000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:45:10.664415000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:45:10.664468000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:45:10.664504000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:46:10.660187000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:46:10.660269000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:46:10.660314000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:46:10.660348000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:47:10.660128000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:47:10.660340000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:47:10.660393000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:47:10.660426000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:48:10.660455000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:48:10.660573000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:48:10.660653000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:48:10.660744000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:49:10.660968000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:49:10.661115000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:49:10.661205000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:49:10.661274000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:50:10.660180000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:50:10.660329000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:50:10.660462000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:50:10.660531000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:51:10.661493000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:51:10.661640000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:51:10.661730000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:51:10.661799000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:52:10.662132000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:52:10.662341000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:52:10.662441000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:52:10.662512000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:53:10.662382000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:53:10.662533000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:53:10.662624000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:53:10.662694000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:53:57.570433000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T14:53:57.576063000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x119356100, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T14:53:57.578509000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T14:55:11.984520000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T14:55:12.145779000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T14:55:12.146008000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T14:55:12.146117000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T14:55:12.146154000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T14:55:12.147691000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T14:55:12.157747000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T14:55:12.157879000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2778 })
+2024-10-31T14:55:12.157956000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 2660, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2778 })
+2024-10-31T14:55:13.148718000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:55:13.148794000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:55:13.148831000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:55:13.148864000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:55:15.777610000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-2778]
+2024-10-31T14:55:15.778139000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2660, create time: 20241031_145515_777, active time: 0, ve: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:55:15.778364000+08:00  INFO replication::node_store: node-3 last applied:1-3-2778, create snapshot index: 2660, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2660 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2660" }
+2024-10-31T14:55:18.801380000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 2660, create time: 20241031_145515_777, active time: 1730357718, ve: VersionEdit { seq_no: 2660, file_id: 27, max_level_ts: 1730356275334756000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:55:18.801550000+08:00  INFO replication::node_store: node-3  get snapshot index: 2660, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2660 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2660" }
+2024-10-31T14:55:18.801749000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T14:55:18.807727000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T14:55:18.807929000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T14:55:18.808520000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T14:55:18.861513000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T14:55:18.861549000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T14:56:13.148317000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:56:13.148486000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:56:13.148576000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:56:13.148647000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:57:13.148599000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:57:13.148704000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:57:13.148764000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:57:13.148807000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:58:13.149104000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:58:13.149222000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:58:13.149315000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:58:13.149568000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:59:13.149439000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T14:59:13.149579000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:59:13.149674000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:59:13.149744000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T14:59:38.827907000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2102400
+2024-10-31T14:59:38.828235000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T14:59:38.829091000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2660-2804]
+2024-10-31T14:59:38.882077000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2804, file_id: 28, max_level_ts: 1730357978807597000, add_files: [CompactMeta { file_id: 28, file_size: 246919, tsf_id: 3, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:59:38.882130000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2660
+2024-10-31T14:59:38.882185000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2804, file_id: 28, max_level_ts: 1730357978807597000, add_files: [CompactMeta { file_id: 28, file_size: 246919, tsf_id: 3, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T14:59:38.882208000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T14:59:38.885703000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T14:59:38.885837000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T14:59:38.885869000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T14:59:38.896151000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T14:59:39.149280000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T14:59:39.149426000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T14:59:39.149646000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730357979149]: picked nothing, level_0 files(3) < 4
+2024-10-31T14:59:39.149756000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T14:59:39.149838000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:05:18.806258000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2837, flushed_apply_id: 2804, snapshot_apply_id: 2660 }
+2024-10-31T15:05:18.808495000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2804, create time: 20241031_150518_808, active time: 0, ve: VersionEdit { seq_no: 2804, file_id: 28, max_level_ts: 1730357978807597000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 28, file_size: 246919, tsf_id: 3, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:05:18.809090000+08:00  INFO replication::node_store: node-3 last applied:1-3-2837, create snapshot index: 2804, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2804 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2804" }
+2024-10-31T15:14:20.978646000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T15:14:20.984626000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x118286040, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T15:14:20.985492000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T15:17:46.166885000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T15:17:46.308708000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T15:17:46.308901000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T15:17:46.308974000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T15:17:46.309002000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T15:17:46.310186000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T15:17:46.310579000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:17:46.310679000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:17:46.310722000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:17:46.310745000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:17:46.318594000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T15:17:46.318719000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2892 })
+2024-10-31T15:17:46.318790000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 2804, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2892 })
+2024-10-31T15:17:49.985881000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-2892]
+2024-10-31T15:17:49.986402000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2804, create time: 20241031_151749_986, active time: 0, ve: VersionEdit { seq_no: 2804, file_id: 28, max_level_ts: 1730357978807597000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 28, file_size: 246919, tsf_id: 3, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:17:49.986632000+08:00  INFO replication::node_store: node-3 last applied:1-3-2892, create snapshot index: 2804, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2804 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2804" }
+2024-10-31T15:17:53.149411000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 2804, create time: 20241031_151749_986, active time: 1730359073, ve: VersionEdit { seq_no: 2804, file_id: 28, max_level_ts: 1730357978807597000, add_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 3, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 3, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 28, file_size: 246919, tsf_id: 3, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:17:53.149591000+08:00  INFO replication::node_store: node-3  get snapshot index: 2804, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2804 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2804" }
+2024-10-31T15:17:53.149810000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T15:17:53.155816000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T15:17:53.156050000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T15:17:53.156558000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T15:17:53.168838000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T15:17:53.168872000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T15:18:46.310422000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:18:46.310535000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:18:46.310599000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:18:46.310651000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:19:46.310669000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:19:46.310777000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:19:46.310818000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:19:46.310849000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:20:46.311301000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:20:46.311389000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:20:46.311439000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:20:46.311479000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:21:46.311751000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:21:46.311896000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:21:46.311980000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:21:46.312050000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:22:46.311283000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:22:46.311376000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:22:46.311438000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:22:46.311488000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:23:47.312239000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:23:47.312486000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:23:47.312562000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:23:47.312619000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:24:46.311725000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:24:46.311917000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:24:46.312033000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:24:46.312110000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:25:46.311416000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:25:46.311523000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:25:46.311592000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:25:46.311643000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:26:46.311525000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T15:26:46.311654000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:26:46.311747000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:26:46.311815000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:27:13.160146000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2108320
+2024-10-31T15:27:13.160294000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T15:27:13.160711000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2804-2948]
+2024-10-31T15:27:13.190940000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 2948, file_id: 29, max_level_ts: 1730359633153511000, add_files: [CompactMeta { file_id: 29, file_size: 246944, tsf_id: 3, level: 0, min_ts: 1730357988806429000, max_ts: 1730359633153511000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:27:13.190999000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2804
+2024-10-31T15:27:13.191054000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 2948, file_id: 29, max_level_ts: 1730359633153511000, add_files: [CompactMeta { file_id: 29, file_size: 246944, tsf_id: 3, level: 0, min_ts: 1730357988806429000, max_ts: 1730359633153511000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:27:13.191073000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T15:27:13.198793000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T15:27:13.198915000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T15:27:13.198942000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T15:27:13.207434000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T15:27:13.312293000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T15:27:13.312337000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:27:13.312592000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730359633312]: picked level_0 files([22, 27, 28, 29]) to level: 1
+2024-10-31T15:27:13.312664000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:27:13.312805000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Running compaction job on tenant_database: cnosdb.usage_schema, ts_family: 3, in_level: 0, out_level: 1, out_time_range: [1730353082948346000, 1730359633153511000], files: [{ Level-0, file_id: 22, time_range: 1730353082948346000-1730354503033993000 }, { Level-0, file_id: 27, time_range: 1730354513033619000-1730356275334756000 }, { Level-0, file_id: 28, time_range: 1730356285333631000-1730357978807597000 }, { Level-0, file_id: 29, time_range: 1730357988806429000-1730359633153511000 }]
+2024-10-31T15:27:13.327222000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000022.tombstone.compact.tmp', all_excluded_ranges: { (1730353082948346000, 1730359633153511000) }
+2024-10-31T15:27:13.343432000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000027.tombstone.compact.tmp', all_excluded_ranges: { (1730353082948346000, 1730359633153511000) }
+2024-10-31T15:27:13.358668000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000028.tombstone.compact.tmp', all_excluded_ranges: { (1730353082948346000, 1730359633153511000) }
+2024-10-31T15:27:13.372454000+08:00  INFO tskv::tsm::tombstone: Tombstone: Saving compact_tmp tombstone file './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000029.tombstone.compact.tmp', all_excluded_ranges: { (1730353082948346000, 1730359633153511000) }
+2024-10-31T15:27:13.379224000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 31 been created (level: 1).
+2024-10-31T15:27:13.520512000+08:00  INFO tskv::compaction::writer_wrapper: Compaction(Delta(3)): File: 31 write finished (level: 1, 424822 B).
+2024-10-31T15:27:13.520794000+08:00  INFO tskv::compaction::compact: Compaction(Delta(3)): Compact finished, version edits: VersionEdit { seq_no: 0, file_id: 31, max_level_ts: 1730359633153511000, add_files: [CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }], del_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 0, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 0, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 28, file_size: 246919, tsf_id: 0, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }, CompactMeta { file_id: 29, file_size: 246944, tsf_id: 0, level: 0, min_ts: 1730357988806429000, max_ts: 1730359633153511000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T15:27:13.520842000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 0, file_id: 31, max_level_ts: 1730359633153511000, add_files: [CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }], del_files: [CompactMeta { file_id: 22, file_size: 245518, tsf_id: 0, level: 0, min_ts: 1730353082948346000, max_ts: 1730354503033993000, is_delta: true }, CompactMeta { file_id: 27, file_size: 246778, tsf_id: 0, level: 0, min_ts: 1730354513033619000, max_ts: 1730356275334756000, is_delta: true }, CompactMeta { file_id: 28, file_size: 246919, tsf_id: 0, level: 0, min_ts: 1730356285333631000, max_ts: 1730357978807597000, is_delta: true }, CompactMeta { file_id: 29, file_size: 246944, tsf_id: 0, level: 0, min_ts: 1730357988806429000, max_ts: 1730359633153511000, is_delta: true }], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "" }
+2024-10-31T15:27:13.520861000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T15:27:13.526424000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T15:27:13.526622000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 29 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000029.delta
+2024-10-31T15:27:13.526673000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000029.tombstone.compact.tmp'
+2024-10-31T15:27:13.526817000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000029.tombstone.compact.tmp'
+2024-10-31T15:27:13.526839000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T15:27:13.526855000+08:00  INFO tskv::kvcore: Response apply version edit failed: Ok(())
+2024-10-31T15:27:53.154449000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 2951, flushed_apply_id: 2948, snapshot_apply_id: 2804 }
+2024-10-31T15:27:53.157131000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 2948, create time: 20241031_152753_156, active time: 0, ve: VersionEdit { seq_no: 2948, file_id: 31, max_level_ts: 1730359633153511000, add_files: [CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:27:53.157644000+08:00  INFO replication::node_store: node-3 last applied:1-3-2951, create snapshot index: 2948, data len 204, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 2948 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-2948" }
+2024-10-31T15:37:53.155128000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 3011, flushed_apply_id: 2948, snapshot_apply_id: 2948 }
+2024-10-31T15:47:53.109460000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 3071, flushed_apply_id: 2948, snapshot_apply_id: 2948 }
+2024-10-31T15:51:03.128386000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T15:51:03.131449000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T15:51:03.135523000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [2948-3091]
+2024-10-31T15:51:03.192423000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 3091, file_id: 30, max_level_ts: 1730361063106075000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:51:03.192622000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 2948
+2024-10-31T15:51:03.193272000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 3091, file_id: 30, max_level_ts: 1730361063106075000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:51:03.193437000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T15:51:03.197189000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T15:51:03.198444000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T15:51:03.198600000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T15:51:03.208915000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T15:51:03.264374000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T15:51:03.264437000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T15:51:03.266399000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730361063264]: picked nothing, level_0 files(1) < 4
+2024-10-31T15:51:03.266597000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T15:51:03.266619000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T15:57:53.102144000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 3131, flushed_apply_id: 3091, snapshot_apply_id: 2948 }
+2024-10-31T15:57:53.106900000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 3091, create time: 20241031_155753_104, active time: 0, ve: VersionEdit { seq_no: 3091, file_id: 31, max_level_ts: 1730361063106075000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }, CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T15:57:53.107630000+08:00  INFO replication::node_store: node-3 last applied:1-3-3131, create snapshot index: 3091, data len 245, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3091 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-3091" }
+2024-10-31T16:07:53.137633000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 3191, flushed_apply_id: 3091, snapshot_apply_id: 3091 }
+2024-10-31T16:14:53.153912000+08:00  INFO tskv::tsfamily::tseries_family: mut_cache is full, switch to immutable. current pool_size : 2104960
+2024-10-31T16:14:53.154154000+08:00  INFO tskv::compaction::job: Flush: begin flush data FlushReq owner: cnosdb.usage_schema, on vnode: 3
+2024-10-31T16:14:53.155200000+08:00  INFO tskv::compaction::flush: Flush: running  FlushReq owner: cnosdb.usage_schema, on vnode: 3 seq: [3091-3234]
+2024-10-31T16:14:53.201991000+08:00  INFO tskv::compaction::flush: Flush: completed: owner: cnosdb.usage_schema tsf_id: 3, version edit: VersionEdit { seq_no: 3234, file_id: 32, max_level_ts: 1730362493137851000, add_files: [CompactMeta { file_id: 32, file_size: 245649, tsf_id: 3, level: 0, min_ts: 1730361073105434000, max_ts: 1730362493137851000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T16:14:53.202117000+08:00  INFO tskv::compaction::job: Flush: completion request FlushReq owner: cnosdb.usage_schema, on vnode: 3 at 3091
+2024-10-31T16:14:53.202228000+08:00  INFO tskv::kvcore: Apply Summary task: VersionEdit { seq_no: 3234, file_id: 32, max_level_ts: 1730362493137851000, add_files: [CompactMeta { file_id: 32, file_size: 245649, tsf_id: 3, level: 0, min_ts: 1730361073105434000, max_ts: 1730362493137851000, is_delta: true }], del_files: [], partly_del_files: [], act_tsf: Update, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T16:14:53.202251000+08:00  INFO tskv::summary: Write version edit to summary for ts_family 3.
+2024-10-31T16:14:53.206048000+08:00  INFO tskv::summary: Applying new version for ts_family 3.
+2024-10-31T16:14:53.206467000+08:00  INFO tskv::summary: Applied new version for ts_family 3.
+2024-10-31T16:14:53.206500000+08:00  INFO tskv::index::ts_index: Index clear all tombstone
+2024-10-31T16:14:53.216656000+08:00  INFO tskv::compaction::job: Flush: spawn flush  FlushReq owner: cnosdb.usage_schema, on vnode: 3 result: Ok(())
+2024-10-31T16:14:53.296385000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })]
+2024-10-31T16:14:53.296427000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:14:53.296466000+08:00  INFO tskv::compaction::picker: Picker(delta) [1730362493296]: picked nothing, level_0 files(2) < 4
+2024-10-31T16:14:53.296482000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:14:53.296499000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Delta(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:17:53.137984000+08:00  INFO replication::multi_raft: # Engine Metrics group id: 2 raft id: 3; EngineMetrics { last_applied_id: 3251, flushed_apply_id: 3234, snapshot_apply_id: 3091 }
+2024-10-31T16:17:53.142859000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 3234, create time: 20241031_161753_140, active time: 0, ve: VersionEdit { seq_no: 3234, file_id: 32, max_level_ts: 1730362493137851000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }, CompactMeta { file_id: 32, file_size: 245649, tsf_id: 3, level: 0, min_ts: 1730361073105434000, max_ts: 1730362493137851000, is_delta: true }, CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T16:17:53.143784000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 22 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000022.delta
+2024-10-31T16:17:53.145249000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000022.tombstone.compact.tmp'
+2024-10-31T16:17:53.145523000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000022.tombstone.compact.tmp'
+2024-10-31T16:17:53.145697000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 27 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000027.delta
+2024-10-31T16:17:53.145759000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000027.tombstone.compact.tmp'
+2024-10-31T16:17:53.145893000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000027.tombstone.compact.tmp'
+2024-10-31T16:17:53.145982000+08:00  INFO tskv::tsfamily::column_file: Removed tsm file 28 at './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000028.delta
+2024-10-31T16:17:53.146012000+08:00  INFO tskv::tsfamily::column_file: Trying to remove tsm tombstone_compact_tmp: './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000028.tombstone.compact.tmp'
+2024-10-31T16:17:53.146153000+08:00  INFO tskv::tsfamily::column_file: Removed tsm tombstone_compact_tmp './tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/delta/_000028.tombstone.compact.tmp'
+2024-10-31T16:17:53.146639000+08:00  INFO replication::node_store: node-3 last applied:1-3-3251, create snapshot index: 3234, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3234 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-3234" }
+2024-10-31T16:27:02.559896000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T16:27:02.565744000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x11a02a020, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T16:27:02.567808000+08:00  INFO tskv::kvcore: TsKv closed
+2024-10-31T16:28:48.463825000+08:00  INFO meta::service::single: single meta http server start addr: 127.0.0.1:8901
+2024-10-31T16:28:48.615133000+08:00  INFO tskv::index::ts_index: Open index dir '"./tmp/cnosdb/1001/db/data/cnosdb.usage_schema/3/index"', incr id start at: 92
+2024-10-31T16:28:48.615334000+08:00  INFO tskv::kvcore: Summary task handler started
+2024-10-31T16:28:48.615425000+08:00  INFO tskv::compaction::job: Compaction: start merge compact task job
+2024-10-31T16:28:48.615459000+08:00  INFO tskv::compaction::job: Compaction: start vnode compaction job
+2024-10-31T16:28:48.616898000+08:00  INFO coordinator::raft::manager: Opening local raft node: 2.3
+2024-10-31T16:28:48.626529000+08:00  INFO tskv::wal: WAL '"./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3/_000001.wal"' starts write
+2024-10-31T16:28:48.626827000+08:00  INFO coordinator::raft::manager: open vnode(2-3) last applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3306 })
+2024-10-31T16:28:48.626908000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3"  start at: 3234, applied id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3306 })
+2024-10-31T16:28:49.617518000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:28:49.617593000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:28:49.617627000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:28:49.617646000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:28:52.841327000+08:00  INFO tskv::wal::wal_store: recover vnode "./tmp/cnosdb/1001/wal/cnosdb.usage_schema/3", entries: [0-3306]
+2024-10-31T16:28:52.841905000+08:00  INFO tskv::vnode_store: Snapshot: build snapshot: node id: 1001, vnode id: 3, last seq no: 3234, create time: 20241031_162852_841, active time: 0, ve: VersionEdit { seq_no: 3234, file_id: 32, max_level_ts: 1730362493137851000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }, CompactMeta { file_id: 32, file_size: 245649, tsf_id: 3, level: 0, min_ts: 1730361073105434000, max_ts: 1730362493137851000, is_delta: true }, CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T16:28:52.842131000+08:00  INFO replication::node_store: node-3 last applied:1-3-3306, create snapshot index: 3234, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3234 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-3234" }
+2024-10-31T16:28:56.612109000+08:00  INFO tskv::vnode_store: Snapshot: Get snapshot node id: 1001, vnode id: 3, last seq no: 3234, create time: 20241031_162852_841, active time: 1730363336, ve: VersionEdit { seq_no: 3234, file_id: 32, max_level_ts: 1730362493137851000, add_files: [CompactMeta { file_id: 30, file_size: 245675, tsf_id: 3, level: 0, min_ts: 1730359643154748000, max_ts: 1730361063106075000, is_delta: true }, CompactMeta { file_id: 32, file_size: 245649, tsf_id: 3, level: 0, min_ts: 1730361073105434000, max_ts: 1730362493137851000, is_delta: true }, CompactMeta { file_id: 31, file_size: 424822, tsf_id: 3, level: 1, min_ts: 1730353082948346000, max_ts: 1730359633153511000, is_delta: false }, CompactMeta { file_id: 26, file_size: 1136522, tsf_id: 3, level: 3, min_ts: 1730259945553945000, max_ts: 1730353072949341000, is_delta: false }], del_files: [], partly_del_files: [], act_tsf: Add, tsf_id: 3, tsf_name: "cnosdb.usage_schema" }
+2024-10-31T16:28:56.612305000+08:00  INFO replication::node_store: node-3  get snapshot index: 3234, data len 286, meta SnapshotMeta { last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 3 }, index: 3234 }), last_membership: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 0, node_id: 0 }, index: 0 }), membership: Membership { configs: [{3}], nodes: {3: RaftNodeInfo { group_id: 2, address: "127.0.0.1:8903" }} } }, snapshot_id: "1-3-3234" }
+2024-10-31T16:28:56.612525000+08:00  INFO coordinator::raft::manager: start raft node: RaftNodeSummary { tenant: "cnosdb", db_name: "usage_schema", group_id: 2, raft_id: 3 } Success
+2024-10-31T16:28:56.618674000+08:00  INFO cnosdb: CnosDB server start as singleton mode
+2024-10-31T16:28:56.618885000+08:00  INFO cnosdb::http::http_service: http server start addr: 0.0.0.0:8902, bundle mode
+2024-10-31T16:28:56.619351000+08:00  INFO cnosdb::rpc::grpc_service: grpc server start addr: 0.0.0.0:8903
+2024-10-31T16:28:56.624803000+08:00  INFO cnosdb::flight_sql: flight rpc server start addr: 0.0.0.0:8904
+2024-10-31T16:28:56.624865000+08:00  INFO cnosdb::tcp::tcp_service: tcp server start addr: 0.0.0.0:8905
+2024-10-31T16:29:49.617784000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:29:49.617845000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:29:49.617881000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:29:49.617905000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:30:49.617450000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:30:49.617532000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:30:49.617575000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:30:49.617608000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:31:49.618150000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:31:49.618295000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:31:49.618386000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:31:49.618455000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:32:49.617213000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:32:49.617327000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:32:49.617406000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:32:49.617473000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:33:49.618349000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:33:49.618493000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:33:49.618646000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:33:49.618738000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:34:49.617185000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:34:49.617356000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:34:49.617438000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:34:49.617504000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:35:01.466607000+08:00 ERROR cnosdb::http::http_service: Failed to handle http sql request, err: Query { source: Parser { source: ParserError("Expected option [comment], [_limiter], [drop_after] found [local_initial]") } }
+2024-10-31T16:35:36.245918000+08:00 ERROR cnosdb::http::http_service: Failed to handle http sql request, err: Query { source: Meta { source: TenantAlreadyExists { tenant: "t_001" } } }
+2024-10-31T16:35:49.617767000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:35:49.617867000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:35:49.617935000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:35:49.617985000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:36:49.617191000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })]
+2024-10-31T16:36:49.617353000+08:00  INFO tskv::compaction::job: Starting compaction on ts_family 3
+2024-10-31T16:36:49.617444000+08:00  INFO tskv::compaction::job: There is no need to compact.
+2024-10-31T16:36:49.617514000+08:00  INFO tskv::compaction::job: Compacting on vnode(job start): [(Normal(3), Mutex { data: () })] costs 0 sec
+2024-10-31T16:37:32.779361000+08:00  INFO cnosdb: Waiting for write requests, current number of requests 0
+2024-10-31T16:37:32.787018000+08:00 ERROR tskv::kvcore: Failed to broadcast close signal: SendError(Sender { chan: Tx { inner: Chan { tx: Tx { block_tail: 0x11751a100, tail_position: 0 }, semaphore: Semaphore { semaphore: Semaphore { permits: 1 }, bound: 1 }, rx_waker: AtomicWaker, tx_count: 1, rx_fields: "..." } } })
+2024-10-31T16:37:32.788281000+08:00  INFO tskv::kvcore: TsKv closed

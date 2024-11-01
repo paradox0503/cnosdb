@@ -1898,6 +1898,7 @@ impl<'a, S: ContextProviderExtension + Send + Sync + 'a> SqlPlanner<'a, S> {
                 (AlterTenantAction::RemoveUser(user_id), privilege)
             }
             AlterTenantOperation::Set(sql_option) => {
+                println!("sql_option: {:?}", sql_option.clone());
                 sql_option_to_alter_tenant_action(tenant, sql_option)?
             }
             AlterTenantOperation::UnSet(ident) => {

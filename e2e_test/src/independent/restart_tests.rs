@@ -916,3 +916,85 @@ fn case8_count_after_restart_cluster() {
     let _ = std::fs::remove_dir_all(&test_dir);
     println!("Test begin case8 count after restart cluster");
 }
+
+
+
+
+#[test]
+#[serial]
+fn case9() {
+    let url_cnosdb_public = "http://127.0.0.1:8902/api/v1/sql?tenant=cnosdb&db=public";
+    let executor = E2eExecutor::new_singleton("restart_tests", "case_9", cluster_def::one_data(1));
+    executor.execute_steps(&[
+
+        Step::CnosdbRequest {
+            req: CnosdbRequest::Ddl {
+                url: url_cnosdb_public,
+                sql: "CREATE TENANT test",
+                resp: Ok(()),
+            },
+            auth: None,
+        },
+        Step::RestartDataNode(0),
+        Step::CnosdbRequest {
+            req: CnosdbRequest::Query {
+                url: url_cnosdb_public,
+                sql: "SELECT * FROM cluster_schema.tenants WHERE tenant_name = 'test'",
+                resp: Ok(vec![
+                    "tenant_name,tenant_options",
+                    "test,\"{\"\"comment\"\":null,\"\"limiter_config\"\":null,\"\"drop_after\"\":null,\"\"tenant_is_hidden\"\":false}\""
+                ]),
+                sorted: false,
+                regex: false,
+            },
+            auth: None,
+        },
+        Step::CnosdbRequest {
+            req: CnosdbRequest::Ddl {
+                url: url_cnosdb_public,
+                sql: "ALTER TENANT test SET object_config        MAX_users_number = 1
+                            max_databases = 3
+                            max_shard_number = 2
+                            max_replicate_number = 2
+                            max_retention_time = 30,
+        DATA_in              remote_max = 10000
+                            remote_initial = 0
+                            remote_refill = 10000
+                            remote_interval = 100
+                            local_max = 10000
+                            local_initial = 0,
+        data_out             remote_max = 50
+                            remote_initial = 0
+                            remote_interval = 100
+                            local_max = 100
+                            local_initial = 0,
+        MAX_queries = null, MAX_writes = null",
+                resp: Ok(()),
+            },
+            auth: None,
+        },
+        Step::RestartDataNode(0),
+        // Step::CnosdbRequest {
+        //     req: CnosdbRequest::Query {
+        //         url: url_cnosdb_public,
+        //         sql: "SELECT * FROM cluster_schema.tenants WHERE tenant_name = 'test'",
+        //         resp: Ok(vec![
+        //             "tenant_name,tenant_options",
+        //             "test,\"{\"\"comment\"\":\"\"abc\"\",\"\"limiter_config\"\":null,\"\"drop_after\"\":null,\"\"tenant_is_hidden\"\":false}\""
+        //         ]),
+        //         sorted: false,
+        //         regex: false,
+        //     },
+        //     auth: None,
+        // },
+        
+        Step::CnosdbRequest {
+            req: CnosdbRequest::Ddl {
+                url: url_cnosdb_public,
+                sql: "DROP TENANT test",
+                resp: Ok(()),
+            },
+            auth: None,
+        },
+    ]);
+}

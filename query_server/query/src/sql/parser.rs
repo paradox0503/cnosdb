@@ -716,7 +716,7 @@ impl<'a> ExtParser<'a> {
                 let role_name = self.parser.parse_identifier()?;
                 AlterTenantOperation::SetUser(user_name, role_name)
             } else {
-                let sql_option = ExtParser::parse_sql_option(&mut self.parser)?;
+                let sql_option = self.alter_parse_limiter()?;
                 AlterTenantOperation::Set(sql_option)
             }
         } else if self.parse_cnos_keyword(CnosKeyWord::UNSET) {
@@ -727,6 +727,104 @@ impl<'a> ExtParser<'a> {
         };
 
         Ok(ExtStatement::AlterTenant(AlterTenant { name, operation }))
+    }
+    
+    fn alter_parse_limiter(&mut self) -> Result<SqlOption, ParserError>{
+
+        let mut limiter_options = serde_json::Map::new(); // 用于存储 _limiter 内部配置
+        let mut drop_after = None;
+        let mut comment = None;
+        let mut has_limiter_option = false; 
+        let mut has_comment_option = false;
+        let mut has_drop_after_option = false;
+        
+        while self.parser.peek_token().token != Token::EOF {
+            let name = self.parser.parse_identifier()?;
+            // self.parser.expect_token(&Token::Eq)?;
+            // 跳过所有空白字符，包括空格、制表符和换行符
+            while matches!(self.parser.peek_token().token, Token::Whitespace(_)|Token::Eq) {
+                self.parser.next_token(); // 跳过空白字符
+            }
+    
+            match name.value.to_lowercase().as_str() {
+                "comment" => {
+                    comment = Some(self.parser.parse_literal_string()?);
+                    has_comment_option = true;
+                }
+                "drop_after" => {
+                    drop_after = Some(self.parser.parse_literal_string()?);
+                    has_drop_after_option = true;
+                }
+                "object_config" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_object_config()?);
+                    has_limiter_option = true;
+                }
+                "data_in" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                    has_limiter_option = true;
+                }
+                "data_out" => {
+                    limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                    has_limiter_option = true;
+                }
+                "max_queries" | "max_writes" => {
+                    limiter_options.insert(name.value.to_lowercase(), ExtParser::sql_value_to_json_value(self.parser.parse_value()?)?);
+                    has_limiter_option = true;
+                }
+                _ => {
+                    limiter_options.insert(
+                        name.value.to_lowercase(),
+                        ExtParser::sql_value_to_json_value(self.parser.parse_value()?)?,
+                    );
+                }
+            }
+            // 处理逗号
+            if !self.parser.consume_token(&Token::Comma) {
+                break;
+            }
+        }
+        // 检查是否有多个选项同时为 true
+        let has_options_count = [has_comment_option, has_drop_after_option, has_limiter_option]
+        .iter()
+        .filter(|&&x| x)
+        .count();
+
+        if has_options_count > 1 {
+            return Err(ParserError::ParserError("Cannot set multiple options (comment, drop_after, _limiter) at the same time".to_string()));
+        }
+    
+        // 构建 _limiter 的 JSON 字符串
+        let limiter_json = serde_json::json!({
+            "object_config": limiter_options.remove("object_config").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+            "request_config": {
+                "data_in": limiter_options.remove("data_in").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+                "data_out": limiter_options.remove("data_out").unwrap_or(JsonValue::Object(serde_json::Map::new())),
+                "queries": limiter_options.remove("max_queries").unwrap_or(JsonValue::Null),
+                "writes": limiter_options.remove("max_writes").unwrap_or(JsonValue::Null),
+            }
+        });
+        
+        // 将 limiter_json 转换为 SqlOption
+        if has_comment_option {
+            return Ok(SqlOption {
+                name: Ident::new("comment"),
+                value: Value::SingleQuotedString(comment.unwrap().to_string()),
+            });
+        }
+        if has_drop_after_option {
+            return Ok(SqlOption {
+                name: Ident::new("drop_after"),
+                value: Value::SingleQuotedString(drop_after.unwrap().to_string()),
+            });
+        }
+        if has_limiter_option {
+            return Ok(SqlOption {
+                name: Ident::new("_limiter"),
+                value: Value::SingleQuotedString(limiter_json.to_string()),
+            });
+        }
+        Err(ParserError::ParserError("No valid options found".to_string()))
+        
     }
 
     fn parse_alter_user(&mut self) -> Result<ExtStatement> {
@@ -1214,6 +1312,7 @@ impl<'a> ExtParser<'a> {
         let mut limiter_options = serde_json::Map::new(); // 用于存储 _limiter 内部配置
         let mut comment = None;
         let mut drop_after = None;
+        let mut has_limiter_option = false; // 标志，用于检查是否有有效的选项
     
         while self.parser.peek_token().token != Token::EOF {
             let name = self.parser.parse_identifier()?;
@@ -1232,15 +1331,19 @@ impl<'a> ExtParser<'a> {
                 }
                 "object_config" => {
                     limiter_options.insert(name.value.to_lowercase(), self.parse_object_config()?);
+                    has_limiter_option = true; // 记录有有效的选项
                 }
                 "data_in" => {
                     limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                    has_limiter_option = true; // 记录有有效的选项
                 }
                 "data_out" => {
                     limiter_options.insert(name.value.to_lowercase(), self.parse_data_in_out()?);
+                    has_limiter_option = true; // 记录有有效的选项
                 }
                 "max_queries" | "max_writes" => {
                     limiter_options.insert(name.value.to_lowercase(), ExtParser::sql_value_to_json_value(self.parser.parse_value()?)?);
+                    has_limiter_option = true; // 记录有有效的选项
                 }
                 _ => {
                     with_options.push(SqlOption {
@@ -1279,11 +1382,18 @@ impl<'a> ExtParser<'a> {
             });
         }
     
-        // 将构建好的 _limiter JSON 字符串作为一个选项添加到 with_options
-        with_options.push(SqlOption {
-            name: Ident::new("_limiter"),
-            value: Value::SingleQuotedString(limiter_json.to_string()),
-        });
+        // // 将构建好的 _limiter JSON 字符串作为一个选项添加到 with_options
+        // with_options.push(SqlOption {
+        //     name: Ident::new("_limiter"),
+        //     value: Value::SingleQuotedString(limiter_json.to_string()),
+        // });
+        // 仅在有有效的选项时才添加 _limiter
+        if has_limiter_option {
+            with_options.push(SqlOption {
+                name: Ident::new("_limiter"),
+                value: Value::SingleQuotedString(limiter_json.to_string()),
+            });
+        }
     
         
     
@@ -1322,28 +1432,6 @@ impl<'a> ExtParser<'a> {
     }
     
     fn parse_data_in_out(&mut self) -> Result<JsonValue, ParserError> {
-        // let mut map = serde_json::Map::new();
-        // // 定义允许的键列表
-        // let valid_keys = [
-        //     "remote_max", "remote_initial", "remote_refill", "remote_interval",
-        //     "local_max", "local_initial",
-        // ];
-
-        // while let Token::Word(_) = self.parser.peek_token().token {
-        //     let key = self.parser.parse_identifier()?;
-
-        //     // 检查键是否在有效键列表中
-        //     if !valid_keys.contains(&key.value.to_lowercase().as_str()) {
-        //         return Err(ParserError::ParserError(key.value)); // 返回解析错误
-        //     }
-
-        //     self.parser.expect_token(&Token::Eq)?;
-        //     let val = self.parser.parse_value()?;
-        //     map.insert(key.value.to_lowercase(), ExtParser::sql_value_to_json_value(val)?);
-
-        //     // 这里不再检查逗号，直接继续下一个键值对，直到没有更多键值对
-        // }
-        // Ok(JsonValue::Object(map))
         let mut remote_map = serde_json::Map::new();
         let mut local_map = serde_json::Map::new();
 
@@ -1364,11 +1452,6 @@ impl<'a> ExtParser<'a> {
             let val = self.parser.parse_value()?;
             let json_val = ExtParser::sql_value_to_json_value(val)?;
 
-            // if key_str.starts_with("remote") {
-            //     remote_map.insert(key_str, json_val);
-            // } else if key_str.starts_with("local") {
-            //     local_map.insert(key_str, json_val);
-            // }
             // 将键值对添加到相应的桶中
             if key_str.starts_with("remote") {
                 let field_key = key_str.strip_prefix("remote_").unwrap();
@@ -3204,6 +3287,78 @@ mod tests {
             }
             _ => panic!("impossible"),
         }
+    }
+
+
+
+    #[test]
+    fn test_alter_tenant() {
+        let statement = parse_sql(
+            r#"alter tenant test_tenant set
+        object_config      MAX_users_number = 1
+                            max_databases = 3
+                            max_shard_number = 2
+                            max_replicate_number = 2 
+                            max_retention_time = 30,
+        data_in            remote_max = 10000
+                            remote_refill = 10000
+                            remote_initial = 0
+                            remote_interval = 100
+                            LOCAL_max = 10000
+                            local_initial = 0,
+        data_out           remote_max = 100
+                            remote_initial = 0
+                            remote_refill = 100
+                            remote_interval = 100
+                            local_max = 100
+                            local_initial = 0,
+        MAX_queries = 1, max_writes = 1;"#,
+        );
+        println!("{:?}", statement);
+    }
+
+    #[test]
+    fn test_alter_tenant_origin() {
+        let statement = parse_sql(
+            r#"alter tenant test_tenant5 set _limiter = '{
+                "object_config": {
+                  "max_users_number": 1,
+                  "max_databases": 3,
+                  "max_shard_number": 2,
+                  "max_replicate_number": 2,
+                  "max_retention_time": 30
+                },
+                "request_config": {
+                  "data_in": {
+                    "remote_bucket": {
+                      "max": 10000,
+                      "initial": 0,
+                      "refill": 10000,
+                      "interval": 100
+                    },
+                    "local_bucket": {
+                      "max": 10000,
+                      "initial": 0
+                   }
+                  },
+                   "data_out": {
+                     "remote_bucket": {
+                     "max": 100,
+                     "initial": 0,
+                      "refill": 100,
+                      "interval": 100
+                },
+                "local_bucket": {
+                  "max": 100,
+                  "initial": 0
+                }
+                },
+                "queries": 1,
+                "writes": 1
+                }
+              }'"#,
+        );
+        println!("{:?}", statement);
     }
 
 

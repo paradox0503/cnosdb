@@ -1,9 +1,11 @@
 use std::cmp::Reverse;
 use std::collections::{BTreeMap, HashMap, HashSet};
+// use std::{fs, option};
 use std::fs;
 use std::path::Path;
 use std::sync::Arc;
 
+// use futures::future::ok;
 use models::auth::privilege::DatabasePrivilege;
 use models::auth::role::{CustomTenantRole, SystemTenantRole, TenantRoleIdentifier};
 use models::auth::user::{UserDesc, UserOptions};
@@ -27,7 +29,7 @@ use crate::error::{MetaError, MetaResult};
 use crate::limiter::local_request_limiter::{LocalBucketRequest, LocalBucketResponse};
 use crate::limiter::remote_request_limiter::RemoteRequestLimiter;
 use crate::store::key_path::KeyPath;
-
+use crate::limiter::RequestLimiterKind;
 pub type CommandResp = String;
 
 pub fn value_encode<T: Serialize>(d: &T) -> MetaResult<String> {
@@ -1364,12 +1366,67 @@ impl StateMachine {
         let key = KeyPath::tenant(cluster, name);
         if let Some(tenant) = self.get_struct::<Tenant>(&key)? {
             if !tenant.options().get_tenant_is_hidden() {
+                //获得原来tenant的config信息
+                // 使用 process_read_tenant 读取旧的租户信息
+                let old_option_tenant = self.process_read_tenant(cluster, name, false)?;
+                let mut new_limiter = options.request_config().map(RemoteRequestLimiter::new);
+                
+                if let Some(old_tenant) = old_option_tenant {
+                    let old_options = old_tenant.options();
+                    let old_limiter=old_options.request_config().map(RemoteRequestLimiter::new);
+            
+                        if let Some(old_limiter) = old_limiter {
+                            if let Some(ref mut new_limiter) = new_limiter {
+                                let old_data_in = old_limiter.buckets.get(&RequestLimiterKind::DataIn);
+                                let new_data_in = new_limiter.buckets.get(&RequestLimiterKind::DataIn);
+                                if old_data_in != new_data_in && new_data_in.is_some() {
+                                    // 将 `old_data_in` 插入到 `new_limiter` 的 buckets 中
+                                    if let Some(value) = new_data_in {
+                                        new_limiter.buckets.insert(RequestLimiterKind::DataIn, value.clone());
+                                    }
+                                }
+
+                                let old_data_out = old_limiter.buckets.get(&RequestLimiterKind::DataOut);
+                                let new_data_out = new_limiter.buckets.get(&RequestLimiterKind::DataOut);
+                                if old_data_out != new_data_out && new_data_out.is_some() {
+                                    // 将 `old_data_out` 插入到 `new_limiter` 的 buckets 中
+                                    if let Some(value) = new_data_out {
+                                        new_limiter.buckets.insert(RequestLimiterKind::DataOut, value.clone());
+                                    }
+                                }
+
+                                let old_queries = old_limiter.buckets.get(&RequestLimiterKind::Queries);
+                                let new_queries = new_limiter.buckets.get(&RequestLimiterKind::Queries);
+                                if old_queries != new_queries && new_queries.is_some() {
+                                    // 将 `old_queries` 插入到 `new_limiter` 的 buckets 中
+                                    if let Some(value) = new_queries {
+                                        new_limiter.buckets.insert(RequestLimiterKind::Queries, value.clone());
+                                    }
+                                }
+
+                                let old_writes = old_limiter.buckets.get(&RequestLimiterKind::Writes);
+                                let new_writes = new_limiter.buckets.get(&RequestLimiterKind::Writes);
+                                if old_writes != new_writes && new_writes.is_some() {
+                                    // 将 `old_writes` 插入到 `new_limiter` 的 buckets 中
+                                    if let Some(value) = new_writes {
+                                        new_limiter.buckets.insert(RequestLimiterKind::Writes, value.clone());
+                                    }
+                                }
+                                
+                            }
+                        }
+                    
+                }
+    
+                
+
+
                 let new_tenant = Tenant::new(*tenant.id(), name.to_string(), options.to_owned());
                 self.insert(&key, &value_encode(&new_tenant)?)?;
 
-                let limiter = options.request_config().map(RemoteRequestLimiter::new);
+                // let limiter = options.request_config().map(RemoteRequestLimiter::new);
 
-                self.set_tenant_limiter(cluster, name, limiter)?;
+                self.set_tenant_limiter(cluster, name, new_limiter)?;
 
                 Ok(new_tenant)
             } else {

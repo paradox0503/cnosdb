@@ -196,7 +196,16 @@ struct Critical {
     /// The deadline for when more tokens can be added
     deadline: chrono::DateTime<Utc>,
 }
-
+impl Clone for RateBucket {
+    fn clone(&self) -> Self {
+        RateBucket {
+            refill: self.refill,
+            interval: self.interval,
+            max: self.max,
+            critical: Mutex::new(self.critical.lock().clone()),
+        }
+    }
+}
 impl RateBucket {
     pub const DEFAULT_REFILL_MAX_FACTOR: usize = 10;
 
